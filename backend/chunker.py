@@ -60,7 +60,6 @@ def chunk_repository(
                 CodeChunk(
                     chunk_id=str(uuid4()),
                     file_id=file.file_id,
-                    repository=file.repository,
                     path=file.path,
                     filename=file.filename,
                     extension=file.extension,
