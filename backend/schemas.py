@@ -35,3 +35,9 @@ class CodeChunk(BaseModel):
 
 class EmbeddedChunk(CodeChunk):
     embedding: list[float]
+
+from pydantic import BaseModel
+
+
+class GitHubRequest(BaseModel):
+    url: str

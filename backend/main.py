@@ -1,20 +1,27 @@
 from pathlib import Path
 import shutil
-
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-
+from backend.github import download_repository_zip
+from backend.chunker import chunk_repository
+from backend.embeddings import embed_repository
+from backend.vector_store import clear_collection, index_chunks
 from backend.chunker import chunk_repository
 from backend.embeddings import embed_repository
 from backend.llm import ask_gemini
-from backend.parser import load_repository
-from backend.schemas import ChatRequest
+from backend.parser import load_repository, load_repository_from_zip
+from backend.schemas import ChatRequest, GitHubRequest
 from backend.vector_store import index_chunks, search
 from backend.vector_store import (
     index_chunks,
     search,
     clear_collection,
 )
+
+import shutil
+
+
+
 app = FastAPI(title="Sapphire Codebase Assistant")
 
 # Enable CORS
@@ -101,3 +108,43 @@ Question:
     return {
         "answer": answer
     }
+
+
+
+@app.post("/github")
+async def github_upload(request: GitHubRequest):
+    """
+    Download a public GitHub repository as a ZIP,
+    extract it, index it and store embeddings.
+    """
+
+    temp_dir = None
+
+    try:
+        clear_collection()
+
+        zip_path, temp_dir = download_repository_zip(request.url)
+
+        files = load_repository_from_zip(zip_path)
+
+        chunks = chunk_repository(files)
+
+        embedded_chunks = embed_repository(chunks)
+
+        index_chunks(embedded_chunks)
+
+        return {
+            "message": "Repository indexed successfully.",
+            "files": len(files),
+            "chunks": len(chunks),
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
+
+    finally:
+        if temp_dir:
+            shutil.rmtree(temp_dir, ignore_errors=True)
