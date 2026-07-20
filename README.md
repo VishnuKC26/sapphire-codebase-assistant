@@ -15,23 +15,6 @@ An AI-powered codebase assistant that lets you chat with any GitHub repository o
 - 🗃️ ChromaDB vector database for efficient retrieval
 - 📊 Repository statistics (files indexed, chunks created)
 
----
-
-## Demo
-
-### Home
-<img src="assets/home.png" width="900">
-
-### Repository Indexing
-<img src="assets/index.png" width="900">
-
-### Chat Interface
-<img src="assets/chat.png" width="900">
-
-> Replace the screenshots above with your own images.
-
----
-
 ## Tech Stack
 
 ### Backend
