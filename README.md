@@ -5,7 +5,8 @@ A **Retrieval-Augmented Generation (RAG)** application that enables developers t
 The application automatically downloads or extracts a codebase, chunks the source code, generates semantic embeddings using **BAAI/bge-small-en-v1.5**, stores them in **ChromaDB**, retrieves the most relevant code snippets for each query, and uses an LLM to generate context-aware, grounded answers.
 
 ---
-
+## Demo
+![alt text](image.png)
 ## 🚀 Features
 
 - 🧠 Retrieval-Augmented Generation (RAG) pipeline for source code
