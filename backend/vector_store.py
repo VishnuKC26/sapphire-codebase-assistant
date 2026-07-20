@@ -6,10 +6,10 @@ from google import genai
 
 from backend.config import GEMINI_API_KEY
 
-from sentence_transformers import SentenceTransformer
+from backend.embeddings import model
 
 from backend.schemas import  EmbeddedChunk
-model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+
 
 client_gemini = genai.Client(api_key=GEMINI_API_KEY)
 
