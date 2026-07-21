@@ -754,6 +754,9 @@ let indexed=false;
 
 function toggleSidebar(){
     document.getElementById("app").classList.toggle("sidebar-open");
+    if(document.activeElement && typeof document.activeElement.blur === "function"){
+        document.activeElement.blur();
+    }
 }
 
 function add(role,text){
