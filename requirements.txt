@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 altair==6.2.2
 annotated-doc==0.0.4
 annotated-types==0.7.0
@@ -60,3 +61,6 @@ urllib3==2.7.0
 uvicorn==0.51.0
 watchdog==6.0.0
 websockets==16.1
+chromadb==1.5.9
+sentence-transformers==5.6.0
+torch==2.13.0
