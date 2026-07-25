@@ -63,10 +63,8 @@ def search(
     top_k: int = 5,
 ):
 
-    query_embedding = model.encode(
-    query,
-    normalize_embeddings=True,
-).tolist()
+    query_embeddings = list(model.query_embed(query))
+    query_embedding = query_embeddings[0].tolist()
 
     
     results = collection.query(
