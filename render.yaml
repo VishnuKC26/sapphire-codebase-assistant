@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: sapphire-codebase-assistant
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false # Set this to your Gemini API Key in the Render dashboard
+      - key: PYTHON_VERSION
+        value: 3.11.9
