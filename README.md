@@ -13,6 +13,7 @@ The application automatically downloads or extracts a codebase, chunks the sourc
 ![alt text](image-3.png)
 
 ![alt text](image-4.png)
+
 ## 🚀 Features
 
 - 🧠 Retrieval-Augmented Generation (RAG) pipeline for source code
