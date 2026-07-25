@@ -2,11 +2,17 @@
 
 A **Retrieval-Augmented Generation (RAG)** application that enables developers to chat with any GitHub repository or uploaded ZIP archive using natural language.
 
-The application automatically downloads or extracts a codebase, chunks the source code, generates semantic embeddings using **BAAI/bge-small-en-v1.5**, stores them in **ChromaDB**, retrieves the most relevant code snippets for each query, and uses an LLM to generate context-aware, grounded answers.
+The application automatically downloads or extracts a codebase, chunks the source code, generates semantic embeddings locally using **FastEmbed** (with the **BAAI/bge-small-en-v1.5** model), stores them in **ChromaDB**, retrieves the most relevant code snippets for each query, and uses an LLM to generate context-aware, grounded answers.
 
 ---
 ## Demo
-![alt text](image.png)
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+![alt text](image-4.png)
 ## 🚀 Features
 
 - 🧠 Retrieval-Augmented Generation (RAG) pipeline for source code
@@ -31,7 +37,7 @@ The project follows a Retrieval-Augmented Generation (RAG) architecture.
    - Split source files into semantic code chunks while preserving metadata such as file paths and line numbers.
 
 3. **Embedding**
-   - Convert each chunk into dense vector embeddings using **BAAI/bge-small-en-v1.5**.
+   - Convert each chunk into dense vector embeddings locally using **FastEmbed** (with the **BAAI/bge-small-en-v1.5** model).
 
 4. **Indexing**
    - Store embeddings in **ChromaDB** for efficient semantic retrieval.

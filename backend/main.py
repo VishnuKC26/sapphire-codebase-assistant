@@ -5,20 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.github import download_repository_zip
 from backend.chunker import chunk_repository
 from backend.embeddings import embed_repository
-from backend.vector_store import clear_collection, index_chunks
-from backend.chunker import chunk_repository
-from backend.embeddings import embed_repository
+from backend.vector_store import clear_collection, index_chunks, search
 from backend.llm import ask_gemini
 from backend.parser import load_repository_from_zip
 from backend.schemas import ChatRequest, GitHubRequest
-from backend.vector_store import index_chunks, search
-from backend.vector_store import (
-    index_chunks,
-    search,
-    clear_collection,
-)
-
-import shutil
 
 
 

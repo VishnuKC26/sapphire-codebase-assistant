@@ -1,8 +1,9 @@
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 
 from backend.schemas import CodeChunk, EmbeddedChunk
 
-model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+# Using FastEmbed for local-first, free-of-cost, fast embedding generation using ONNX Runtime
+model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
 
 
 def embed_repository(
@@ -11,12 +12,7 @@ def embed_repository(
 
     texts = [chunk.content for chunk in chunks]
 
-    embeddings = model.encode(
-        texts,
-        batch_size=32,
-        normalize_embeddings=True,
-        show_progress_bar=True,
-    )
+    embeddings = list(model.embed(texts))
 
     embedded_chunks = []
 
