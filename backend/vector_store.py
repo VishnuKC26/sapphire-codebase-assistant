@@ -15,6 +15,8 @@ from backend.config import GEMINI_API_KEY
 
 from backend.embeddings import model
 
+from backend.schemas import  EmbeddedChunk
+
 
 client_gemini = genai.Client(api_key=GEMINI_API_KEY)
 
@@ -61,7 +63,10 @@ def search(
     top_k: int = 5,
 ):
 
-    query_embedding = list(model.embed([query]))[0].tolist()
+    query_embedding = model.encode(
+    query,
+    normalize_embeddings=True,
+).tolist()
 
     
     results = collection.query(
