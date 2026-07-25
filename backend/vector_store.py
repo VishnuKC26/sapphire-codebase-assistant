@@ -8,17 +8,32 @@ except ImportError:
 import chromadb
 
 from backend.schemas import EmbeddedChunk
-
 from backend.embeddings import model
 
-from backend.schemas import  EmbeddedChunk
+from chromadb import EmbeddingFunction
 
+class DummyEmbeddingFunction(EmbeddingFunction):
+    def __init__(self):
+        pass
+    def __call__(self, input):
+        return []
 
 client = chromadb.PersistentClient(path="database")
 
-collection = client.get_or_create_collection(
-    name="repositories"
-)
+try:
+    collection = client.get_or_create_collection(
+        name="repositories",
+        embedding_function=DummyEmbeddingFunction()
+    )
+except ValueError:
+    try:
+        client.delete_collection("repositories")
+    except Exception:
+        pass
+    collection = client.get_or_create_collection(
+        name="repositories",
+        embedding_function=DummyEmbeddingFunction()
+    )
 
 
 def index_chunks(chunks: list[EmbeddedChunk]) -> None:
@@ -78,5 +93,6 @@ def clear_collection() -> None:
     global collection
 
     collection = client.get_or_create_collection(
-        name="repositories"
+        name="repositories",
+        embedding_function=DummyEmbeddingFunction()
     )

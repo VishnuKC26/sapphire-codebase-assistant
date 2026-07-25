@@ -2,7 +2,7 @@ from fastembed import TextEmbedding
 
 from backend.schemas import CodeChunk, EmbeddedChunk
 
-model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
+model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5", threads=1)
 
 
 def embed_repository(
