@@ -801,6 +801,27 @@
             dot.style.backgroundColor = color;
         }
 
+        // Helper to handle API responses safely
+        async function handleResponse(response, defaultError = "Request failed") {
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.detail || defaultError);
+                }
+                return data;
+            } else {
+                const text = await response.text();
+                if (!response.ok) {
+                    // Extract title or body if it looks like an HTML error page, otherwise show statusText
+                    let cleanText = text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+                    if (cleanText.length > 150) cleanText = cleanText.substring(0, 150) + "...";
+                    throw new Error(`Error ${response.status}: ${cleanText || response.statusText}`);
+                }
+                throw new Error("Expected JSON response but received raw text.");
+            }
+        }
+
         // API Interactions
         async function uploadZip() {
             const f = zip.files[0];
@@ -821,8 +842,7 @@
                     body: fd
                 });
 
-                const j = await r.json();
-                if (!r.ok) throw new Error(j.detail || "Upload failed.");
+                const j = await handleResponse(r, "Upload failed.");
 
                 files.textContent = j.files;
                 chunks.textContent = j.chunks;
@@ -856,8 +876,7 @@
                     body: JSON.stringify({ url })
                 });
 
-                const j = await r.json();
-                if (!r.ok) throw new Error(j.detail || "Failed.");
+                const j = await handleResponse(r, "Failed to index repository.");
 
                 files.textContent = j.files;
                 chunks.textContent = j.chunks;
@@ -894,11 +913,11 @@
                     body: JSON.stringify({ message: q })
                 });
 
-                const j = await r.json();
+                const j = await handleResponse(r, "Chat request failed.");
                 updateAnswer(j.answer);
                 status("Ready", "#22c55e");
-            } catch {
-                updateAnswerRaw("<span style='color:#ef4444;'>Backend error.</span>");
+            } catch (e) {
+                updateAnswerRaw(`<span style='color:#ef4444;'>Backend error: ${e.message}</span>`);
                 status("Error", "#ef4444");
             }
         }
