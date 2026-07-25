@@ -9,16 +9,9 @@ import chromadb
 
 from backend.schemas import EmbeddedChunk
 
-from google import genai
-
-from backend.config import GEMINI_API_KEY
-
 from backend.embeddings import model
 
 from backend.schemas import  EmbeddedChunk
-
-
-client_gemini = genai.Client(api_key=GEMINI_API_KEY)
 
 
 client = chromadb.PersistentClient(path="database")
