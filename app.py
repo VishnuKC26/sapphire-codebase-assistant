@@ -224,7 +224,7 @@ BACKEND_URL = "http://127.0.0.1:8000"
 
 st.set_page_config(
     page_title="Sapphire Codebase Assistant",
-    page_icon="💎",
+    page_icon="static/favicon-32x32.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
